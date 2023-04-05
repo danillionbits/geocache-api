@@ -10,6 +10,8 @@ services:
       MYSQL_DATABASE: geocache
     ports:
       - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
   app:
     build: .
     container_name: geocache-api
@@ -25,3 +27,6 @@ services:
       API_PORT: 8080
     ports:
       - 8080:8080
+
+volumes:
+  db:
