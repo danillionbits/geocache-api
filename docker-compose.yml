@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: geocache
+    ports:
+      - 3307:3306
+  app:
+    build: .
+    container_name: geocache-api
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASS: pass
+      MYSQL_DATABASE: geocache
+      MYSQL_PORT: 3306
+      API_PORT: 8080
+    ports:
+      - 8080:8080
