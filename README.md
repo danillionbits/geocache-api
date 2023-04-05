@@ -30,11 +30,11 @@ The API supports CRUD operations of these resources `users`, `caches`, `messages
 
 | Method | Endpoint           | Description                 |
 |--------|--------------------|-----------------------------|
-| GET    | /:resouce          | Get all items from a table  |
-| GET    | /:resouce/:id      | Get an item by id           |
-| POST   | /:resouce          | Create a new item           |
-| PUT    | /:resouce/:id      | Update an existing item     |
-| DELETE | /:resouce/:id      | Delete an item              |
+| GET    | /:resource         | Get all items from a table  |
+| GET    | /:resource/:id     | Get an item by id           |
+| POST   | /:resource         | Create a new item           |
+| PUT    | /:resource/:id     | Update an existing item     |
+| DELETE | /:resource/:id     | Delete an item              |
 
 ### Custom Endpoints
 The API also supports the following custom endpoints:
