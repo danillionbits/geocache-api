@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
 const BaseController = require('./baseController');
+const { verifyToken } = require('../utils');
 
 class UserController extends BaseController {
   constructor(modelName, primaryKey) {
@@ -41,6 +42,7 @@ class UserController extends BaseController {
   }
 
   async getAll(req, res) {
+    verifyToken(req, res);
     try {
       const result = await userModel.findAll();
       res.json(result);
@@ -51,6 +53,7 @@ class UserController extends BaseController {
   }
 
   async getById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
       const result = await userModel.findByPk(id);
@@ -66,6 +69,7 @@ class UserController extends BaseController {
   }
 
   async updateById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     const data = req.body;
     try {
@@ -82,6 +86,7 @@ class UserController extends BaseController {
   }
 
   async deleteById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
       const result = await userModel.destroy({ where: { id: id } });

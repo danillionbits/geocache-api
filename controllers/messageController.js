@@ -1,5 +1,6 @@
 const messageModel = require('../models/messageModel');
 const BaseController = require('./baseController');
+const { verifyToken } = require('../utils');
 
 class MessageController extends BaseController {
   constructor(modelName, primaryKey) {
@@ -7,6 +8,7 @@ class MessageController extends BaseController {
   }
 
   async create(req, res) {
+    verifyToken(req, res);
     const data = req.body;
     try {
       const result = await messageModel.create(data);
@@ -18,6 +20,7 @@ class MessageController extends BaseController {
   }
 
   async getAll(req, res) {
+    verifyToken(req, res);
     try {
       const result = await messageModel.findAll();
       res.json(result);
@@ -28,6 +31,7 @@ class MessageController extends BaseController {
   }
 
   async getById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
       const result = await messageModel.findByPk(id);
@@ -43,6 +47,7 @@ class MessageController extends BaseController {
   }
 
   async updateById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     const data = req.body;
     try {
@@ -59,6 +64,7 @@ class MessageController extends BaseController {
   }
 
   async deleteById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
       const result = await messageModel.destroy({ where: { id: id } });

@@ -1,5 +1,6 @@
 const imageModel = require('../models/imageModel');
 const BaseController = require('./baseController');
+const { verifyToken } = require('../utils');
 
 class ImageController extends BaseController {
   constructor(modelName, primaryKey) {
@@ -7,6 +8,7 @@ class ImageController extends BaseController {
   }
 
   async create(req, res) {
+    verifyToken(req, res);
     const data = req.body;
     try {
       const result = await imageModel.create(data);
@@ -18,6 +20,7 @@ class ImageController extends BaseController {
   }
 
   async getAll(req, res) {
+    verifyToken(req, res);
     try {
       const result = await imageModel.findAll();
       res.json(result);
@@ -28,6 +31,7 @@ class ImageController extends BaseController {
   }
 
   async getById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
       const result = await imageModel.findByPk(id);
@@ -43,10 +47,11 @@ class ImageController extends BaseController {
   }
 
   async updateById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     const data = req.body;
     try {
-      const result = await imageModel.update(data, { where: { id: id } });
+      const result = await imageModel.update(data, { where: { imageID: id } });
       if (result[0] === 0) {
         res.status(404).send('Not found');
       } else {
@@ -59,9 +64,10 @@ class ImageController extends BaseController {
   }
 
   async deleteById(req, res) {
+    verifyToken(req, res);
     const id = req.params.id;
     try {
-      const result = await imageModel.destroy({ where: { id: id } });
+      const result = await imageModel.destroy({ where: { imageID: id } });
       if (result === 0) {
         res.status(404).send('Not found');
       } else {

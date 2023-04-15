@@ -1,10 +1,10 @@
-const cacheModel = require('../models/cacheModel');
+const logModel = require('../models/logModel');
 const Image = require('../models/imageModel');
 const User = require('../models/userModel');
 const BaseController = require('./baseController');
 const { verifyToken } = require('../utils');
 
-class CacheController extends BaseController {
+class LogController extends BaseController {
   constructor(modelName, primaryKey) {
     super(modelName, primaryKey);
   }
@@ -13,7 +13,7 @@ class CacheController extends BaseController {
     verifyToken(req, res);
     const data = req.body;
     try {
-      const result = await cacheModel.create(data);
+      const result = await logModel.create(data);
       res.json(result);
     } catch (error) {
       console.error(error);
@@ -23,26 +23,8 @@ class CacheController extends BaseController {
 
   async getAll(req, res) {
     verifyToken(req, res);
-    const filters = parseFilters(req.query);
-
     try {
-      const result = await cacheModel.findAll({
-        where: filters,
-        include: [
-          {
-            model: Log,
-            as: 'logs',
-            where: {
-              userId: userId
-            },
-            required: false
-          }
-        ]
-      });
-      result.forEach(cache => {
-        cache.foundByCurrentUser = cache.logs && cache.logs.length > 0;
-        delete cache.logs;
-      });
+      const result = await logModel.findAll();
       res.json(result);
     } catch (error) {
       console.error(error);
@@ -53,33 +35,12 @@ class CacheController extends BaseController {
   async getById(req, res) {
     verifyToken(req, res);
     const id = req.params.id;
-    const filters = parseFilters(req.query);
-
     try {
-      const result = await cacheModel.findByPk(id, {
-        where: filters,
-        include: [
-          {
-            model: User,
-            as: 'user'
-          }, {
-            model: Image,
-            as: 'images'
-          }, {
-            model: Log,
-            as: 'logs',
-            where: { userID: userId, logType: 'found' },
-            required: false
-          }
-        ]
-      });
+      const result = await logModel.findByPk(id);
       if (!result) {
         res.status(404).send('Not found');
       } else {
-        const cache = result.toJSON();
-        cache.foundByCurrentUser = cache.logs && cache.logs.length > 0;
-        delete cache.logs;
-        res.json(cache);
+        res.json(result);
       }
     } catch (error) {
       console.error(error);
@@ -92,7 +53,7 @@ class CacheController extends BaseController {
     const id = req.params.id;
     const data = req.body;
     try {
-      const result = await cacheModel.update(data, { where: { cacheID: id } });
+      const result = await logModel.update(data, { where: { logID: id } });
       if (result[0] === 0) {
         res.status(404).send('Not found');
       } else {
@@ -108,7 +69,7 @@ class CacheController extends BaseController {
     verifyToken(req, res);
     const id = req.params.id;
     try {
-      const result = await cacheModel.destroy({ where: { cacheID: id } });
+      const result = await logModel.destroy({ where: { logID: id } });
       if (result === 0) {
         res.status(404).send('Not found');
       } else {
@@ -121,4 +82,4 @@ class CacheController extends BaseController {
   }
 }
 
-module.exports = new CacheController('caches', 'cacheID');
+module.exports = new LogController('logs', 'logID');

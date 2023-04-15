@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const loginRoutes = require('./routes/loginRoutes');
 const cacheRoutes = require('./routes/cacheRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 const imageRoutes = require('./routes/imageRoutes');
+const logRoutes = require('./routes/logRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const userRoutes = require('./routes/userRoutes');
 const sequelize = require('./db');
@@ -19,7 +21,9 @@ app.get('/', (req, res) => {
 });
 app.use('/', loginRoutes);
 app.use('/caches', cacheRoutes);
+app.use('/favorites', favoriteRoutes);
 app.use('/images', imageRoutes);
+app.use('/logs', logRoutes);
 app.use('/messages', messageRoutes);
 app.use('/users', userRoutes);
 
