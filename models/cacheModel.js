@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 const Image = require('./imageModel');
 const User = require('./userModel');
+const Log = require('./logModel');
 
 const Cache = sequelize.define('caches', {
   cacheID: {
@@ -42,5 +43,6 @@ const Cache = sequelize.define('caches', {
 
 Cache.belongsTo(User, { foreignKey: 'userID' });
 Cache.hasMany(Image, { foreignKey: 'imageID' });
+Cache.hasMany(Log, { foreignKey: 'logID' });
 
 module.exports = Cache;

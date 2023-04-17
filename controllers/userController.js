@@ -9,7 +9,7 @@ class UserController extends BaseController {
     super(modelName, primaryKey);
   }
 
-  async register(req, res) {
+  async register(req, res, next) {
     const data = req.body;
     try {
       const hash = await bcrypt.hash(data.password, 10);
@@ -22,7 +22,7 @@ class UserController extends BaseController {
     }
   }
 
-  async login(req, res) {
+  async login(req, res, next) {
     const { username, password } = req.body;
     try {
       const user = await userModel.findOne({ where: { username } });
@@ -41,8 +41,8 @@ class UserController extends BaseController {
     }
   }
 
-  async getAll(req, res) {
-    verifyToken(req, res);
+  async getAll(req, res, next) {
+    verifyToken(req, res, next);
     try {
       const result = await userModel.findAll();
       res.json(result);
@@ -52,8 +52,8 @@ class UserController extends BaseController {
     }
   }
 
-  async getById(req, res) {
-    verifyToken(req, res);
+  async getById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await userModel.findByPk(id);
@@ -68,8 +68,8 @@ class UserController extends BaseController {
     }
   }
 
-  async updateById(req, res) {
-    verifyToken(req, res);
+  async updateById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     const data = req.body;
     try {
@@ -85,8 +85,8 @@ class UserController extends BaseController {
     }
   }
 
-  async deleteById(req, res) {
-    verifyToken(req, res);
+  async deleteById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await userModel.destroy({ where: { id: id } });

@@ -7,8 +7,8 @@ class FavoriteController extends BaseController {
     super(modelName, primaryKey);
   }
 
-  async create(req, res) {
-    verifyToken(req, res);
+  async create(req, res, next) {
+    verifyToken(req, res, next);
     const data = req.body;
     try {
       const result = await favoriteModel.create(data);
@@ -19,8 +19,8 @@ class FavoriteController extends BaseController {
     }
   }
 
-  async getAll(req, res) {
-    verifyToken(req, res);
+  async getAll(req, res, next) {
+    verifyToken(req, res, next);
     try {
       const result = await favoriteModel.findAll();
       res.json(result);
@@ -30,8 +30,8 @@ class FavoriteController extends BaseController {
     }
   }
 
-  async getById(req, res) {
-    verifyToken(req, res);
+  async getById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await favoriteModel.findByPk(id);
@@ -46,8 +46,8 @@ class FavoriteController extends BaseController {
     }
   }
 
-  async updateById(req, res) {
-    verifyToken(req, res);
+  async updateById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     const data = req.body;
     try {
@@ -63,8 +63,8 @@ class FavoriteController extends BaseController {
     }
   }
 
-  async deleteById(req, res) {
-    verifyToken(req, res);
+  async deleteById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await favoriteModel.destroy({ where: { favoriteID: id } });

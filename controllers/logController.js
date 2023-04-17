@@ -9,8 +9,8 @@ class LogController extends BaseController {
     super(modelName, primaryKey);
   }
 
-  async create(req, res) {
-    verifyToken(req, res);
+  async create(req, res, next) {
+    verifyToken(req, res, next);
     const data = req.body;
     try {
       const result = await logModel.create(data);
@@ -21,8 +21,8 @@ class LogController extends BaseController {
     }
   }
 
-  async getAll(req, res) {
-    verifyToken(req, res);
+  async getAll(req, res, next) {
+    verifyToken(req, res, next);
     try {
       const result = await logModel.findAll();
       res.json(result);
@@ -32,8 +32,8 @@ class LogController extends BaseController {
     }
   }
 
-  async getById(req, res) {
-    verifyToken(req, res);
+  async getById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await logModel.findByPk(id);
@@ -48,8 +48,8 @@ class LogController extends BaseController {
     }
   }
 
-  async updateById(req, res) {
-    verifyToken(req, res);
+  async updateById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     const data = req.body;
     try {
@@ -65,8 +65,8 @@ class LogController extends BaseController {
     }
   }
 
-  async deleteById(req, res) {
-    verifyToken(req, res);
+  async deleteById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await logModel.destroy({ where: { logID: id } });

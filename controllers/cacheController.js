@@ -1,28 +1,29 @@
 const cacheModel = require('../models/cacheModel');
 const Image = require('../models/imageModel');
 const User = require('../models/userModel');
+const Log = require('../models/logModel');
 const BaseController = require('./baseController');
-const { verifyToken } = require('../utils');
+const { verifyToken, parseFilters } = require('../utils');
 
 class CacheController extends BaseController {
   constructor(modelName, primaryKey) {
     super(modelName, primaryKey);
   }
 
-  async create(req, res) {
-    verifyToken(req, res);
+  async create(req, res, next) {
+    verifyToken(req, res, next);
     const data = req.body;
     try {
       const result = await cacheModel.create(data);
-      res.json(result);
+      return res.json(result);
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      return res.status(500).send('Internal server error');
     }
   }
 
-  async getAll(req, res) {
-    verifyToken(req, res);
+  async getAll(req, res, next) {
+    verifyToken(req, res, next);
     const filters = parseFilters(req.query);
 
     try {
@@ -33,7 +34,7 @@ class CacheController extends BaseController {
             model: Log,
             as: 'logs',
             where: {
-              userId: userId
+              userID: req.user_id
             },
             required: false
           }
@@ -43,15 +44,15 @@ class CacheController extends BaseController {
         cache.foundByCurrentUser = cache.logs && cache.logs.length > 0;
         delete cache.logs;
       });
-      res.json(result);
+      return res.json(result);
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      return res.status(500).send('Internal server error');
     }
   }
 
-  async getById(req, res) {
-    verifyToken(req, res);
+  async getById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     const filters = parseFilters(req.query);
 
@@ -68,55 +69,55 @@ class CacheController extends BaseController {
           }, {
             model: Log,
             as: 'logs',
-            where: { userID: userId, logType: 'found' },
+            where: { userID: user_id, logType: 'found' },
             required: false
           }
         ]
       });
       if (!result) {
-        res.status(404).send('Not found');
+        return res.status(404).send('Not found');
       } else {
         const cache = result.toJSON();
         cache.foundByCurrentUser = cache.logs && cache.logs.length > 0;
         delete cache.logs;
-        res.json(cache);
+        return res.json(cache);
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      return res.status(500).send('Internal server error');
     }
   }
 
-  async updateById(req, res) {
-    verifyToken(req, res);
+  async updateById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     const data = req.body;
     try {
       const result = await cacheModel.update(data, { where: { cacheID: id } });
       if (result[0] === 0) {
-        res.status(404).send('Not found');
+        return res.status(404).send('Not found');
       } else {
-        res.json({ message: 'Updated successfully' });
+        return res.json({ message: 'Updated successfully' });
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      return res.status(500).send('Internal server error');
     }
   }
 
-  async deleteById(req, res) {
-    verifyToken(req, res);
+  async deleteById(req, res, next) {
+    verifyToken(req, res, next);
     const id = req.params.id;
     try {
       const result = await cacheModel.destroy({ where: { cacheID: id } });
       if (result === 0) {
-        res.status(404).send('Not found');
+        return res.status(404).send('Not found');
       } else {
-        res.json({ message: 'Deleted successfully' });
+        return res.json({ message: 'Deleted successfully' });
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      return res.status(500).send('Internal server error');
     }
   }
 }

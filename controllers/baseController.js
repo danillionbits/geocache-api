@@ -6,7 +6,7 @@ class BaseController {
         this.primaryKey = primaryKey;
     }
 
-    async create(req, res) {
+    async create(req, res, next) {
         const data = req.body;
         try {
             const result = await sequelize[this.modelName].create(data);
@@ -17,7 +17,7 @@ class BaseController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             console.log(this.primaryKey);
             const result = await sequelize[this.modelName].findAll();
@@ -28,7 +28,7 @@ class BaseController {
         }
     }
 
-    async getById(req, res) {
+    async getById(req, res, next) {
         const id = req.params.id;
         try {
             const result = await sequelize[this.modelName].findByPk(id);
@@ -43,7 +43,7 @@ class BaseController {
         }
     }
 
-    async updateById(req, res) {
+    async updateById(req, res, next) {
         const id = req.params.id;
         const data = req.body;
         try {
@@ -59,7 +59,7 @@ class BaseController {
         }
     }
 
-    async deleteById(req, res) {
+    async deleteById(req, res, next) {
         const id = req.params.id;
         try {
             const result = await sequelize[this.modelName].destroy({ where: { id: id } });

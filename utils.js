@@ -38,7 +38,7 @@ function verifyToken(req, res, next) {
       return res.status(401).send('Unauthorized');
     }
     req.user_id = decoded.user_id;
-    next();
+    //next();
   });
 }
 

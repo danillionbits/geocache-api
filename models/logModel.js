@@ -21,6 +21,5 @@ const Log = sequelize.define('logs', {
 });
 
 Log.belongsTo(User, { foreignKey: 'userID' });
-Log.belongsTo(Cache, { foreignKey: 'cacheID' });
 
 module.exports = Log;
