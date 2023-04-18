@@ -1,4 +1,4 @@
-const sequelize = require("../db");
+const { authenticateToken } = require("../utils/auth");
 
 class BaseController {
     constructor(baseName, server) {
@@ -116,23 +116,23 @@ class BaseController {
     addDefaultRoutes() {
         const self = this;
 
-        self.server.get('/' + self.baseName, function (req, res, next) {
+        self.server.get('/' + self.baseName, authenticateToken, function (req, res, next) {
             self.getAll(req, res, next);
         });
 
-        self.server.get('/' + self.baseName + '/:id', function (req, res, next) {
+        self.server.get('/' + self.baseName + '/:id', authenticateToken, function (req, res, next) {
             self.getById(req, res, next);
         });
 
-        self.server.post('/' + self.baseName, function (req, res, next) {
+        self.server.post('/' + self.baseName, authenticateToken, function (req, res, next) {
             self.create(req, res, next);
         });
 
-        self.server.put('/' + self.baseName + '/:id', function (req, res, next) {
+        self.server.put('/' + self.baseName + '/:id', authenticateToken, function (req, res, next) {
             self.updateById(req, res, next);
         });
 
-        self.server.delete('/' + self.baseName + '/:id', function (req, res, next) {
+        self.server.delete('/' + self.baseName + '/:id', authenticateToken, function (req, res, next) {
             self.deleteById(req, res, next);
         });
     }
