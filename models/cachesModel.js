@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const Image = require('./imageModel');
-const User = require('./userModel');
+const Image = require('./imagesModel');
+const Log = require('./logsModel');
+const User = require('./usersModel');
 
 const Cache = sequelize.define('caches', {
   cacheID: {

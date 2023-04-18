@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const User = require('./userModel');
-const Cache = require('./cacheModel');
+const User = require('./usersModel');
 
 const Log = sequelize.define('logs', {
   logID: {
@@ -21,6 +20,5 @@ const Log = sequelize.define('logs', {
 });
 
 Log.belongsTo(User, { foreignKey: 'userID' });
-Log.belongsTo(Cache, { foreignKey: 'cacheID' });
 
 module.exports = Log;

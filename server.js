@@ -1,13 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const loginRoutes = require('./routes/loginRoutes');
-const cacheRoutes = require('./routes/cacheRoutes');
-const favoriteRoutes = require('./routes/favoriteRoutes');
-const imageRoutes = require('./routes/imageRoutes');
-const logRoutes = require('./routes/logRoutes');
-const messageRoutes = require('./routes/messageRoutes');
-const userRoutes = require('./routes/userRoutes');
 const sequelize = require('./db');
+const restServer = require('./restServer');
 
 // Constants
 const PORT = process.env.API_PORT;
@@ -19,13 +13,16 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.send('Welcome to my API!');
 });
-app.use('/', loginRoutes);
-app.use('/caches', cacheRoutes);
-app.use('/favorites', favoriteRoutes);
-app.use('/images', imageRoutes);
-app.use('/logs', logRoutes);
-app.use('/messages', messageRoutes);
-app.use('/users', userRoutes);
+app.use('/api', restServer);
+
+require('./routes/cacheRoutes');
+require('./routes/favoriteRoutes');
+require('./routes/imageRoutes');
+require('./routes/logRouters');
+require('./routes/loginRoutes');
+require('./routes/messageRoutes');
+require('./routes/userRoutes');
+
 
 sequelize.sync().then(() => { // Sync the models with the database and listen to incoming requests
     app.listen(PORT, () => {

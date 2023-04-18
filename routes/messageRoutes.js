@@ -1,6 +1,6 @@
 const baseRoutes = require('./baseRoutes');
-const MessageController = require('../controllers/messageController');
+const MessagesController = require('../controllers/messagesController');
 
-const router = baseRoutes(MessageController);
+const router = baseRoutes(MessagesController);
 
 module.exports = router;

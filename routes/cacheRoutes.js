@@ -1,6 +1,6 @@
 const baseRoutes = require('./baseRoutes');
-const CacheController = require('../controllers/cacheController');
+const CachesController = require('../controllers/cachesController');
 
-const router = baseRoutes(CacheController);
+const router = baseRoutes(CachesController);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const baseRoutes = require('./baseRoutes');
-const ImageController = require('../controllers/imageController');
+const ImagesController = require('../controllers/imagesController');
 
-const router = baseRoutes(ImageController);
+const router = baseRoutes(ImagesController);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const baseRoutes = require('./baseRoutes');
-const UserController = require('../controllers/userController');
+const UsersController = require('../controllers/usersController');
 
-const router = baseRoutes(UserController);
+const router = baseRoutes(UsersController);
 
 module.exports = router;

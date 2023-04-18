@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const User = require('./userModel');
-const Cache = require('./cacheModel');
+const User = require('./usersModel');
+const Cache = require('./cachesModel');
 
 const Favorite = sequelize.define('favorites', {
   favoriteID: {

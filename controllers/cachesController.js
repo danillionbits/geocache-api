@@ -1,14 +1,13 @@
-const cacheModel = require('../models/cacheModel');
-const Image = require('../models/imageModel');
-const User = require('../models/userModel');
+const cacheModel = require('../models/cachesModel');
 const BaseController = require('./baseController');
+const restServer = require('../restServer');
 const { verifyToken } = require('../utils');
 
-class CacheController extends BaseController {
-  constructor(modelName, primaryKey) {
-    super(modelName, primaryKey);
+class CachesController extends BaseController {
+  constructor(baseName, server) {
+     super(baseName, server);
   }
-
+/*
   async create(req, res) {
     verifyToken(req, res);
     const data = req.body;
@@ -119,6 +118,7 @@ class CacheController extends BaseController {
       res.status(500).send('Internal server error');
     }
   }
+  */
 }
 
-module.exports = new CacheController('caches', 'cacheID');
+module.exports = new CachesController('caches', restServer);
