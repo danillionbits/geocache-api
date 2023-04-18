@@ -43,5 +43,6 @@ const Cache = sequelize.define('caches', {
 
 Cache.belongsTo(User, { foreignKey: 'userID' });
 Cache.hasMany(Image, { foreignKey: 'imageID' });
+Cache.hasMany(Log, { foreignKey: 'logID' });
 
 module.exports = Cache;

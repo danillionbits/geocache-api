@@ -67,7 +67,7 @@ class BaseController {
         }
     }
 
-    async getById(req, res) {
+    async getById(req, res, next) {
         const id = req.params.id;
         try {
             const result = await this.model.findByPk(id, { include });
@@ -82,7 +82,7 @@ class BaseController {
         }
     }
 
-    async updateById(req, res) {
+    async updateById(req, res, next) {
         const id = req.params.id;
         const data = req.body;
         try {
@@ -98,7 +98,7 @@ class BaseController {
         }
     }
 
-    async deleteById(req, res) {
+    async deleteById(req, res, next) {
         const id = req.params.id;
         try {
             const result = await this.model.destroy(data, { where: { [this.primaryKey]: id } });
