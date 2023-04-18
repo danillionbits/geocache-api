@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const Op = Sequelize.Op;
 
 const DATABASE = process.env.MYSQL_DATABASE;
 const USER = process.env.MYSQL_USER;

@@ -49,9 +49,10 @@ class BaseController {
                 }
             }
 
-            console.log(filters);
-
-            const include = req.query.include.split(',').map(i => ({ model: require('../models/' + i + 'Model') }));
+            let include = [];
+            if (req.query.include) {
+                include = req.query.include.split(',').map(i => ({ model: require('../models/' + i + 'Model') }));
+            }
 
             const result = await this.model.findAll({
                 where: filters,

@@ -18,6 +18,5 @@ function verifyToken(req, res, next) {
 }
 
 module.exports = {
-  parseFilters,
   verifyToken
 };
