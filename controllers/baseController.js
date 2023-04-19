@@ -32,12 +32,11 @@ class BaseController {
             }
 
             let sort = [];
-
             if (req.query.sort) {
                 sort = JSON.parse(req.query.sort);
             }
 
-            const filters = {};
+            let filters = {};
             for (let key in req.query) {
                 if (!['include', 'range', 'sort'].includes(key)) {
                     const values = req.query[key];
@@ -71,6 +70,11 @@ class BaseController {
     async getById(req, res, next) {
         const id = req.params.id;
         try {
+            let include = [];
+            if (req.query.include) {
+                include = req.query.include.split(',').map(i => ({ model: require('../models/' + i + 'Model') }));
+            }
+
             const result = await this.model.findByPk(id, { include });
             if (!result) {
                 res.status(404).send('Not found');

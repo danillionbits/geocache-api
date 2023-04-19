@@ -21,7 +21,7 @@ class UsersController extends BaseController {
       if (!isPasswordValid) {
         return res.status(401).send('Incorrect password');
       }
-      const token = jwt.sign({ user_id: user.user_id }, 'secret_key');
+      const token = jwt.sign({ userID: user.userID, username: user.username }, 'secret_key');
       res.json({ user, token });
     } catch (error) {
       console.error(error);
@@ -34,7 +34,7 @@ class UsersController extends BaseController {
     try {
       const hash = await bcrypt.hash(data.password, 10);
       const result = await usersModel.create({ ...data, password: hash });
-      const token = jwt.sign({ user_id: result.user_id }, 'secret_key');
+      const token = jwt.sign({ userID: user.userID, username: user.username }, 'secret_key');
       res.json({ user: result, token });
     } catch (error) {
       console.error(error);

@@ -12,7 +12,10 @@ function authenticateToken(req, res, next) {
         if (err) {
             return res.status(401).send('Unauthorized');
         }
-        req.user_id = decoded.user_id;
+        req.user = {
+            userID: decoded.userID,
+            username: decoded.username
+        };
         next();
     });
 }
